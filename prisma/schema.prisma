@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  user_id   Int       @id @default(autoincrement())
+  phone     String    @unique
+  region    Region    @relation(fields: [region_id], references: [id])
+  region_id Int
+  name      String
+  lastname  String
+  contacs   Contact[] @relation("UserToContact")
+
+  sender_id         Message[] @relation("SenderUser")
+  received_messages Message[] @relation("ReceiverUser")
+}
+
+model Contact {
+  user_id    Int
+  contact_id Int
+
+  user User @relation("UserToContact", fields: [user_id], references: [user_id])
+
+  @@id([user_id, contact_id])
+  @@unique([user_id, contact_id])
+}
+
+model Region {
+  id          Int    @id @default(autoincrement())
+  name        String @unique
+  countryCode String
+
+  users User[]
+}
+
+model Message {
+  id          Int    @id @default(autoincrement())
+  sender      User   @relation("SenderUser", fields: [sender_id], references: [user_id])
+  sender_id   Int
+  receiver    User   @relation("ReceiverUser", fields: [receiver_id], references: [user_id])
+  receiver_id Int
+  content     String
+
+  timestamp DateTime @default(now())
+  read      Boolean  @default(false)
+}
+
+//TODO
+model Chat {
+  chat_id Int @id @default(autoincrement())
+}
