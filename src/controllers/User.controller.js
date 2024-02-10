@@ -10,11 +10,7 @@ export const getAllUsers = async (req, res) => {
 };
 
 export const getUserById = async (req, res) => {
-  const { userId } = req.params;
-
-  if (validateUserId(userId) === null) {
-    return res.status(400).json({ message: "Invalid user ID" });
-  }
+  const userId = req.validatedId;
 
   try {
     const user = await services.getUserById(userId);
@@ -30,22 +26,23 @@ export const getUserById = async (req, res) => {
 };
 
 export const createUser = async (req, res) => {
-  const data = req.body;
+  const data = req.validationResult;
+
   try {
     const createdUser = await services.createUser(data);
     res.status(201).json(createdUser);
   } catch (error) {
+    if (error.code === "P2002" && error.meta?.target === "User_phone_key") {
+      return res.status(400).json({ message: "Phone number already exists" });
+    }
+
     res.status(500).json({ message: "Error creating user" });
   }
 };
 
 export const updateUser = async (req, res) => {
-  const { userId } = req.params;
-  const { data } = req.body;
-
-  if (validateUserId(userId) === null) {
-    return res.status(400).json({ message: "Invalid user ID" });
-  }
+  const userId = req.validatedId;
+  const data = req.validationResult;
 
   try {
     const updatedUser = await services.updateUser(userId, data);
@@ -56,16 +53,15 @@ export const updateUser = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
   } catch (error) {
+    if (error.code === "P2002" && error.meta?.target === "User_phone_key") {
+      return res.status(400).json({ message: "Phone number already exists" });
+    }
     res.status(500).json({ error: "Error updating user" });
   }
 };
 
 export const deleteUser = (req, res) => {
-  const { userId } = req.params;
-
-  if (validateUserId(userId) === null) {
-    return res.status(400).json({ message: "Invalid user ID" });
-  }
+  const userId = req.validatedId;
 
   try {
     const userDeleted = services.deleteUser(userId);
@@ -78,16 +74,4 @@ export const deleteUser = (req, res) => {
   } catch {
     res.status(500).json({ message: "Internal server error" });
   }
-};
-
-const validateUserId = (userId) => {
-  const parsedUserId = parseInt(userId);
-  if (
-    Number.isNaN(parsedUserId) ||
-    parsedUserId <= 0 ||
-    !Number.isInteger(parsedUserId)
-  ) {
-    return null;
-  }
-  return parsedUserId;
 };

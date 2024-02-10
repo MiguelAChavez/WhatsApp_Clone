@@ -4,7 +4,7 @@ export const getAllUsers = async () => {
   try {
     return await prisma.user.findMany();
   } catch (error) {
-    throw new Error("Error al recuperar usuarios: " + error.message);
+    throw error;
   }
 };
 
@@ -22,23 +22,27 @@ export const createUser = async (userData) => {
   try {
     return await prisma.user.create({ data: userData });
   } catch (error) {
-    console.log(error);
-    throw new Error("Error al crear usuario: " + error.message);
+    throw error;
   }
 };
 
 export const updateUser = async (idUser, newData) => {
   try {
-    return await prisma.user.update({ where: idUser, data: newData });
+    return await prisma.user.update({
+      where: { user_id: parseInt(idUser) },
+      data: newData,
+    });
   } catch (error) {
-    throw new Error("Error al actualizar usuario: " + error.message);
+    throw error;
   }
 };
 
 export const deleteUser = async (userId) => {
   try {
-    return await prisma.user.delete({ where: parseInt(userId) });
+    return await prisma.user.delete({
+      where: { user_id: parseInt(userId) },
+    });
   } catch (error) {
-    throw new Error("" + error.message);
+    throw error;
   }
 };
