@@ -2,7 +2,13 @@ import prisma from "../../prisma/prismaClient.js";
 
 export const getAllUsers = async () => {
   try {
-    return await prisma.user.findMany();
+    return await prisma.user.findMany({
+      include: {
+        region: {
+          select: { countryCode: true },
+        },
+      },
+    });
   } catch (error) {
     throw error;
   }

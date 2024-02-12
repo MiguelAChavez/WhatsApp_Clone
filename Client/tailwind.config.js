@@ -9,6 +9,7 @@ export default {
         "primary-strong-dark": "#e9edef",
         "secondary-": "##667781",
         "secondary-dark": "#8696a0",
+        "login-wrapper": "#00a884",
       },
     },
   },
