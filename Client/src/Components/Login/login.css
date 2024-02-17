@@ -18,10 +18,20 @@
     }
 }
 
-@media screen and (max-width: 780px) {
+@media screen and (max-width: 660px) {
+    .landing-header {
+        padding-right: 36px;
+        padding-left: 36px;
+    }
+
+    .landing-wrapper {
+        padding: 0;
+    }
+
     .landing-window {
         width: 100%;
     }
+
 }
 
 .landing-window {
@@ -34,5 +44,4 @@
     font-size: 28px;
     font-weight: 300;
     line-height: normal;
-    color: var(--title-color);
 }

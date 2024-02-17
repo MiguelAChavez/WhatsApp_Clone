@@ -7,7 +7,7 @@ export const LoginHeader = () => {
       <header className="my-[25px] mb-16 landing-header w-[1000px] flex flex-none items-center justify-start min-h-9">
         <WhatsApp className={"w-11 h-11"} />
         <h3 className="ml-[12px] inline-block text-sm uppercase text-white font-semibold align-middle">
-          WhatsApp Web
+          WhatsApp-clone Web
         </h3>
       </header>
     </>
