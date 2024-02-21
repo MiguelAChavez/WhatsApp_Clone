@@ -1,5 +1,5 @@
 import express from "express";
-import { corsMiddleware } from "../middlewares/Cors.middleware";
+import { corsMiddleware } from "../middlewares/Cors.middleware.js";
 
 const app = express();
 app.disable("x-powered-by");

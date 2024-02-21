@@ -10,7 +10,10 @@ export const LoginMain = () => {
   };
   const section = isLogin ? <LoginFrom /> : <RegisterFrom />;
   return (
-    <section className="landing-window bg-white dark:bg-primary-strong flex flex-none flex-col w-[1000px] pb-24 rounded">
+    <section
+      className="landing-window flex flex-none flex-col w-[1000px] pb-24 rounded 
+       bg-white dark:bg-primary-strong "
+    >
       <article className="landing-main relative w-full p-[60px]">{section}</article>
       <article className="landing-main w-full p-[60px]">
         <div className="flex justify-center">
